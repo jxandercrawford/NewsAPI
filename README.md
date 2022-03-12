@@ -6,10 +6,13 @@ A short and sweet news fetching script
 Paths:
 - /api/nyt
 - /api/wsj
+
+
 Queries:
 - section : section of news source to yeild (route to specific path for more info)
 - format : format to return results (json, xml, csv, html)
 - search : term to search headlines for
+
 
 example url:
 
@@ -20,6 +23,7 @@ explaination:
 Will query New York Times news rss feed in the College Basketball section for the term tournament
 
 #### Requirements:
+
 - Flask
 - Pandas
 - Fuzzywuzzy
