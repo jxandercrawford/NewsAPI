@@ -20,7 +20,7 @@ http://127.0.0.1:5000/api/nyt?section=CollegeBasketball&format=html&search=tourn
 
 explaination:
 
-Will query New York Times news rss feed in the College Basketball section for the term tournament
+Will query New York Times news rss feed in the College Basketball section for the term "tournament"
 
 #### Requirements:
 
