@@ -1,3 +1,5 @@
+*Note: This was a short learning project done in October of 2021 to get a handle on using flask as an interface of a RSS feed*
+
 # NewsAPI
 A short and sweet news fetching script
 
