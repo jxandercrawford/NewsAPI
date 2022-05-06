@@ -11,6 +11,7 @@ class NewsDataFeed():
 
         NewsOrg = NewsOrg.lower()
 
+        # Set variables for RSS source
         if NewsOrg == "nyt":
             self.__baseLink = "https://rss.nytimes.com/services/xml/rss/nyt/"
             self.__xpath = "/rss/channel//item"
@@ -36,9 +37,7 @@ class NewsDataFeed():
 
         format = format.lower()
 
-        if format not in ["json", "xml", "csv", "html", "pandas"]:
-            raise Exception("format argument incorrect. Must be 'json', 'xml', 'csv', 'html', or 'pandas.")
-
+        # Return in specified format
         if format == "json":
             return dataset.to_json(orient="records")
         elif format == "xml":
@@ -49,6 +48,8 @@ class NewsDataFeed():
             return dataset.to_html()
         elif format == "pandas":
             return dataset
+        else:
+            raise Exception("format argument incorrect. Must be 'json', 'xml', 'csv', 'html', or 'pandas.")
 
 
     def readRSS(self, categoryLink):
@@ -58,12 +59,14 @@ class NewsDataFeed():
         categoryLink -- A string of last segment of a RSS feed (i.e. HomePage.xml)
         """
 
-        try:
-            response = requests.get(self.__baseLink + categoryLink.strip())
-            content = response.content
-        except:
+        # Make request
+        response = requests.get(self.__baseLink + categoryLink.strip())
+        if response.status_code != 200:
             raise Exception("Unable to access " + self.__baseLink + categoryLink.strip())
 
+        content = response.content
+
+        # Read content
         try:
             return pd.read_xml(content, self.__xpath)
         except:
@@ -95,8 +98,10 @@ class NewsDataFeed():
         format -- A string of the format type of the dataframe to be returned in
         """
 
+        # Search for one word search terms
         if len(term.split(" ")) == 1:
             dataset = dataset[dataset[column].apply(lambda x: fuzz.partial_ratio(term.lower(), x.lower())) > 75]
+        # Search for multi-word search terms
         else:
             dataset = dataset[dataset[column].apply(lambda x: fuzz.token_sort_ratio(term, x)) > 75]
 
